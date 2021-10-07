@@ -1,0 +1,61 @@
+#am I admin yet?
+whoami
+$Server = Read-Host -Prompt '------------------------------------'
+
+#where ami?
+dir
+$Server = Read-Host -Prompt '------------------------------------'
+#what folders can i touch?
+
+Dir | Get-Acl
+$Server = Read-Host -Prompt '------------------------------------'
+#is this a vulenrable version of windows?
+systeminfo | findstr /B /C:"OS Name" /C:"OS Version"
+$Server = Read-Host -Prompt '------------------------------------'
+#what users are running on this computer
+net users
+
+#What am I connected to?
+
+ipconfig /all
+
+route print
+
+arp -A
+
+netstat -ano
+
+netsh firewall show state
+
+netsh firewall show config
+$Server = Read-Host -Prompt '------------------------------------'
+#Any scheduled tasks,  or services running as admin?
+
+schtasks /query /fo LIST /v
+
+tasklist /SVC
+
+net start
+$Server = Read-Host -Prompt '------------------------------------'
+#look for 3rd party devices
+DRIVERQUERY
+$Server = Read-Host -Prompt '------------------------------------'
+#Any recent Hotfixes?
+
+wmic qfe get Caption,Description,HotFixID,InstalledOn
+
+wmic qfe get Caption,Description,HotFixID,InstalledOn | findstr /C:"KB.." /C:"KB.."
+$Server = Read-Host -Prompt '------------------------------------'
+#AlwaysInstallElevated???
+
+reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer\AlwaysInstallElevated
+$Server = Read-Host -Prompt '------------------------------------'
+#look for passwords
+
+findstr /si password *.xml *.ini *.txt
+
+reg query HKLM /f password /t REG_SZ /s
+$Server = Read-Host -Prompt '------------------------------------'
+#print spooler vulnerabilities
+
+sc qc Spooler
